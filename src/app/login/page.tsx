@@ -33,16 +33,18 @@ const LoginPage = () => {
       setPasswordError(null)
     }
 
-    loginHandler()
+    if (usernameInput && passwordInput) {
+      loginHandler(usernameInput, passwordInput)
+    }
   }
 
-  const loginHandler = async () => {
+  const loginHandler = async (username: string, password: string) => {
     try {
       const response = await fetch(`http://localhost:4000/api/admin/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ username: "admin", password: "admin123" }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
@@ -78,6 +80,12 @@ const LoginPage = () => {
       inputRefs.current[index - 1]?.focus();
     }
   };
+
+  const verifyOtpHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    const otp = inputRefs.current.map((input) => input?.value).join("");
+    console.log("Entered OTP:", otp);
+  }
 
   return (
     <div className='flex items-center justify-center'>
@@ -120,7 +128,7 @@ const LoginPage = () => {
                 />
               ))}
             </div>
-            <button onClick={checkInputsHandler} className='bg-black text-white py-2 rounded-md w-64 mt-3'>Verify OTP</button>
+            <button onClick={verifyOtpHandler} className='bg-black text-white py-2 rounded-md w-64 mt-3'>Verify OTP</button>
           </div>
         </form>
       )}
