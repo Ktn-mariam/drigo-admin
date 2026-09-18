@@ -5,37 +5,31 @@ import { useState, useRef } from "react";
 
 const LoginPage = () => {
 
-  const [emailError, setEmailError] = useState<string | null>(null);
+  const [usernameError, setUsernameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
-  const emailRef = useRef<HTMLInputElement | null>(null);
+  const usernameRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const checkInputsHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    const emailInput = emailRef.current?.value;
+    const usernameInput = usernameRef.current?.value;
     const passwordInput = passwordRef.current?.value;
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-    if (!emailInput || !emailRegex.test(emailInput)) {
-      setEmailError('Please enter a valid email ID')
+    if (!usernameInput) {
+      setUsernameError('Please enter your username')
     }
 
     if (!passwordInput) {
       setPasswordError('Please enter the password')
     }
 
-    if (emailInput && emailRegex.test(emailInput)) {
-      setEmailError(null)
+    if (usernameInput) {
+      setUsernameError(null)
     }
 
     if (passwordInput) {
       setPasswordError(null)
-    }
-
-    if (!emailInput || !emailRegex.test(emailInput) || !passwordInput) {
-      return
     }
   }
 
@@ -46,9 +40,9 @@ const LoginPage = () => {
         <div>
           <div className='flex gap-2 items-center border-2 border-solid border-zinc-200 rounded-md px-2 focus-within:border-gray-300 transition-colors'>
             <FaUserAlt size={'1.2rem'} className="text-zinc-300" />
-            <input type="text" ref={emailRef} className='py-1 w-full border-none focus:outline-none' placeholder='Email' />
+            <input type="text" ref={usernameRef} className='py-1 w-full border-none focus:outline-none' placeholder='Email' />
           </div>
-          {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
+          {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
         </div>
         <div>
           <div className='flex gap-2 items-center border-2 border-solid border-zinc-200 rounded-md px-2 focus-within:border-gray-300 transition-colors'>
