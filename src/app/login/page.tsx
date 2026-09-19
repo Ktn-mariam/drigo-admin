@@ -2,8 +2,11 @@
 import { FaLock } from "react-icons/fa";
 import { FaUserAlt } from "react-icons/fa";
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
+  const router = useRouter();
+
   const [loginSteps, setLoginSteps] = useState<number>(1);
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -81,10 +84,30 @@ const LoginPage = () => {
     }
   };
 
-  const verifyOtpHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const verifyOtpHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     const otp = inputRefs.current.map((input) => input?.value).join("");
     console.log("Entered OTP:", otp);
+
+    try {
+      const response = await fetch(`http://localhost:4000/api/admin/auth/verify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ username, code: otp }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "OTP verification failed");
+      }
+
+      router.push("/");
+
+    } catch (error: any) {
+      setVerificationError(error.message || "An error occurred during OTP verification");
+      console.log("Error during OTP verification:", error.message);
+    }
   }
 
   return (
