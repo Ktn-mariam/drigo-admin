@@ -37,7 +37,7 @@ export default function LineChart({ labels, dataset }: LineChartProps) {
         // position: 'top' as const,
       },
       title: {
-        display: true,
+        display: false,
         text: 'Chart.js Line Chart',
         color: 'black',
       },
