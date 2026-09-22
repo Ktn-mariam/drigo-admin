@@ -20,6 +20,7 @@ function Dashboard() {
   const [revenueTrends, setRevenueTrends] = useState<TrendData[] | null>(null);
   const [userRegistrationTrends, setUserRegistrationTrends] = useState<TrendData[] | null>(null);
   const [labels, setLabels] = useState<string[]>([]);
+  const [option, setOption] = useState<string>('Rental');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,25 +86,34 @@ function Dashboard() {
   const userRegistrationDataset = {
     label: 'User Registration',
     data: userRegistrationTrends,
-    borderColor: 'rgba(252, 47, 0, 0.5)',
-    backgroundColor: 'rgba(252, 47, 0, 0.5)',
+    borderColor: 'rgba(236, 125, 16, 0.5)',
+    backgroundColor: 'rgba(236, 125, 16, 0.5)',
     fill: true,
     cubicInterpolationMode: 'monotone',
   }
 
   return (
-    <div className="flex flex-col gap-4 items-center w-full">
-      <div className="h-72 w-full">
-        <LineChart labels={labels} dataset={rentalDataset} />
+    <div className="border border-gray-300 rounded-lg p-4 w-1/2 flex flex-col items-center">
+      <h1 className="text-lg font-bold mb-4">Trends this month</h1>
+      <div>
+        <button className={`px-4 py-1 ${option === 'Rental' ? 'bg-purple-400' : 'bg-purple-200'} leading-none hover:cursor-pointer`} onClick={() => setOption('Rental')}>Rental</button>
+        <button className={`px-4 py-1 ${option === 'Reservation' ? 'bg-pink-400' : 'bg-pink-200'} leading-none hover:cursor-pointer`} onClick={() => setOption('Reservation')}>Reservation</button>
+        <button className={`px-4 py-1 ${option === 'Revenue' ? 'bg-orange-400' : 'bg-orange-200'} leading-none hover:cursor-pointer`} onClick={() => setOption('Revenue')}>Revenue</button>
+        <button className={`px-4 py-1 ${option === 'User Registration' ? 'bg-amber-400' : 'bg-amber-200'} leading-none hover:cursor-pointer`} onClick={() => setOption('User Registration')}>User Registration</button>
       </div>
-      <div className="h-72 w-full">
-        <LineChart labels={labels} dataset={reservationDataset} />
-      </div>
-      <div className="h-72 w-full">
-        <LineChart labels={labels} dataset={revenueDataset} />
-      </div>
-      <div className="h-72 w-full">
-        <LineChart labels={labels} dataset={userRegistrationDataset} />
+      <div className="h-96 w-full">
+        {option === 'Rental' && (
+          <LineChart labels={labels} dataset={rentalDataset} />
+        )}
+        {option === 'Reservation' && (
+          <LineChart labels={labels} dataset={reservationDataset} />
+        )}
+        {option === 'Revenue' && (
+          <LineChart labels={labels} dataset={revenueDataset} />
+        )}
+        {option === 'User Registration' && (
+          <LineChart labels={labels} dataset={userRegistrationDataset} />
+        )}
       </div>
     </div>
   )
