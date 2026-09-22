@@ -8,6 +8,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
@@ -18,42 +19,54 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
+type LineChartProps = {
+  labels: string[];
+  dataset: any;
+};
 
-export default function LineChart() {
+export default function LineChart({ labels, dataset }: LineChartProps) {
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        display: false,
+        // position: 'top' as const,
       },
       title: {
         display: true,
         text: 'Chart.js Line Chart',
+        color: 'black',
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "black",
+        },
+        grid: {
+          drawOnChartArea: false,
+        },
+      },
+      y: {
+        ticks: {
+          color: "black",
+        },
+        grid: {
+          drawOnChartArea: false,
+        },
       },
     },
   };
 
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  console.log(dataset);
 
   const data = {
     labels,
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: labels.map(() => [10, 20, 30, 40, 50, 60, 70][Math.floor(Math.random() * 7)]),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: 'Dataset 2',
-        data: labels.map(() => [10, 20, 30, 40, 50, 60, 70][Math.floor(Math.random() * 7)]),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
+    datasets: [dataset]
   };
 
   return <Line options={options} data={data} />;

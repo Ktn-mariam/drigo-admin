@@ -1,0 +1,478 @@
+{
+"adminId": "356f719f-ea1e-4d49-992c-becba1a442e6",
+"isSuperAdmin": false,
+"permissionCodes": [
+"dashboard.view",
+"support.view",
+"support.edit",
+"customers.view",
+"rentals.view"
+],
+"modulePermissions": [
+{
+"moduleId": 1,
+"moduleCode": "dashboard",
+"moduleName": "Dashboard",
+"permissions": [
+{
+"id": 1,
+"code": "dashboard.view",
+"name": "Dashboard — view",
+"granted": true
+},
+{
+"id": 2,
+"code": "dashboard.create",
+"name": "Dashboard — create",
+"granted": false
+},
+{
+"id": 3,
+"code": "dashboard.edit",
+"name": "Dashboard — edit",
+"granted": false
+},
+{
+"id": 4,
+"code": "dashboard.delete",
+"name": "Dashboard — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 2,
+"moduleCode": "cars",
+"moduleName": "Cars",
+"permissions": [
+{
+"id": 5,
+"code": "cars.view",
+"name": "Cars — view",
+"granted": false
+},
+{
+"id": 6,
+"code": "cars.create",
+"name": "Cars — create",
+"granted": false
+},
+{
+"id": 7,
+"code": "cars.edit",
+"name": "Cars — edit",
+"granted": false
+},
+{
+"id": 8,
+"code": "cars.delete",
+"name": "Cars — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 3,
+"moduleCode": "rentals",
+"moduleName": "Rentals",
+"permissions": [
+{
+"id": 9,
+"code": "rentals.view",
+"name": "Rentals — view",
+"granted": true
+},
+{
+"id": 10,
+"code": "rentals.create",
+"name": "Rentals — create",
+"granted": false
+},
+{
+"id": 11,
+"code": "rentals.edit",
+"name": "Rentals — edit",
+"granted": false
+},
+{
+"id": 12,
+"code": "rentals.delete",
+"name": "Rentals — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 4,
+"moduleCode": "reservations",
+"moduleName": "Reservations",
+"permissions": [
+{
+"id": 13,
+"code": "reservations.view",
+"name": "Reservations — view",
+"granted": false
+},
+{
+"id": 14,
+"code": "reservations.create",
+"name": "Reservations — create",
+"granted": false
+},
+{
+"id": 15,
+"code": "reservations.edit",
+"name": "Reservations — edit",
+"granted": false
+},
+{
+"id": 16,
+"code": "reservations.delete",
+"name": "Reservations — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 5,
+"moduleCode": "customers",
+"moduleName": "Customers",
+"permissions": [
+{
+"id": 17,
+"code": "customers.view",
+"name": "Customers — view",
+"granted": true
+},
+{
+"id": 18,
+"code": "customers.create",
+"name": "Customers — create",
+"granted": false
+},
+{
+"id": 19,
+"code": "customers.edit",
+"name": "Customers — edit",
+"granted": false
+},
+{
+"id": 20,
+"code": "customers.delete",
+"name": "Customers — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 6,
+"moduleCode": "tariffs",
+"moduleName": "Tariffs",
+"permissions": [
+{
+"id": 21,
+"code": "tariffs.view",
+"name": "Tariffs — view",
+"granted": false
+},
+{
+"id": 22,
+"code": "tariffs.create",
+"name": "Tariffs — create",
+"granted": false
+},
+{
+"id": 23,
+"code": "tariffs.edit",
+"name": "Tariffs — edit",
+"granted": false
+},
+{
+"id": 24,
+"code": "tariffs.delete",
+"name": "Tariffs — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 7,
+"moduleCode": "fines",
+"moduleName": "Fines",
+"permissions": [
+{
+"id": 25,
+"code": "fines.view",
+"name": "Fines — view",
+"granted": false
+},
+{
+"id": 26,
+"code": "fines.create",
+"name": "Fines — create",
+"granted": false
+},
+{
+"id": 27,
+"code": "fines.edit",
+"name": "Fines — edit",
+"granted": false
+},
+{
+"id": 28,
+"code": "fines.delete",
+"name": "Fines — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 8,
+"moduleCode": "debts",
+"moduleName": "Debts",
+"permissions": [
+{
+"id": 29,
+"code": "debts.view",
+"name": "Debts — view",
+"granted": false
+},
+{
+"id": 30,
+"code": "debts.create",
+"name": "Debts — create",
+"granted": false
+},
+{
+"id": 31,
+"code": "debts.edit",
+"name": "Debts — edit",
+"granted": false
+},
+{
+"id": 32,
+"code": "debts.delete",
+"name": "Debts — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 9,
+"moduleCode": "support",
+"moduleName": "Support",
+"permissions": [
+{
+"id": 33,
+"code": "support.view",
+"name": "Support — view",
+"granted": true
+},
+{
+"id": 34,
+"code": "support.create",
+"name": "Support — create",
+"granted": false
+},
+{
+"id": 35,
+"code": "support.edit",
+"name": "Support — edit",
+"granted": true
+},
+{
+"id": 36,
+"code": "support.delete",
+"name": "Support — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 10,
+"moduleCode": "delivery",
+"moduleName": "Delivery",
+"permissions": [
+{
+"id": 37,
+"code": "delivery.view",
+"name": "Delivery — view",
+"granted": false
+},
+{
+"id": 38,
+"code": "delivery.create",
+"name": "Delivery — create",
+"granted": false
+},
+{
+"id": 39,
+"code": "delivery.edit",
+"name": "Delivery — edit",
+"granted": false
+},
+{
+"id": 40,
+"code": "delivery.delete",
+"name": "Delivery — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 11,
+"moduleCode": "promotions",
+"moduleName": "Promotions",
+"permissions": [
+{
+"id": 41,
+"code": "promotions.view",
+"name": "Promotions — view",
+"granted": false
+},
+{
+"id": 42,
+"code": "promotions.create",
+"name": "Promotions — create",
+"granted": false
+},
+{
+"id": 43,
+"code": "promotions.edit",
+"name": "Promotions — edit",
+"granted": false
+},
+{
+"id": 44,
+"code": "promotions.delete",
+"name": "Promotions — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 12,
+"moduleCode": "analytics",
+"moduleName": "Analytics",
+"permissions": [
+{
+"id": 45,
+"code": "analytics.view",
+"name": "Analytics — view",
+"granted": false
+},
+{
+"id": 46,
+"code": "analytics.create",
+"name": "Analytics — create",
+"granted": false
+},
+{
+"id": 47,
+"code": "analytics.edit",
+"name": "Analytics — edit",
+"granted": false
+},
+{
+"id": 48,
+"code": "analytics.delete",
+"name": "Analytics — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 13,
+"moduleCode": "fleet",
+"moduleName": "Fleet",
+"permissions": [
+{
+"id": 49,
+"code": "fleet.view",
+"name": "Fleet — view",
+"granted": false
+},
+{
+"id": 50,
+"code": "fleet.create",
+"name": "Fleet — create",
+"granted": false
+},
+{
+"id": 51,
+"code": "fleet.edit",
+"name": "Fleet — edit",
+"granted": false
+},
+{
+"id": 52,
+"code": "fleet.delete",
+"name": "Fleet — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 14,
+"moduleCode": "settings",
+"moduleName": "Settings",
+"permissions": [
+{
+"id": 53,
+"code": "settings.view",
+"name": "Settings — view",
+"granted": false
+},
+{
+"id": 54,
+"code": "settings.create",
+"name": "Settings — create",
+"granted": false
+},
+{
+"id": 55,
+"code": "settings.edit",
+"name": "Settings — edit",
+"granted": false
+},
+{
+"id": 56,
+"code": "settings.delete",
+"name": "Settings — delete",
+"granted": false
+}
+]
+},
+{
+"moduleId": 15,
+"moduleCode": "admins",
+"moduleName": "Admins",
+"permissions": [
+{
+"id": 57,
+"code": "admins.view",
+"name": "Admins — view",
+"granted": false
+},
+{
+"id": 58,
+"code": "admins.create",
+"name": "Admins — create",
+"granted": false
+},
+{
+"id": 59,
+"code": "admins.edit",
+"name": "Admins — edit",
+"granted": false
+},
+{
+"id": 60,
+"code": "admins.delete",
+"name": "Admins — delete",
+"granted": false
+}
+]
+}
+]
+}
