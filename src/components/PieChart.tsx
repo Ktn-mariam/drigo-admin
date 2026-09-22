@@ -4,33 +4,42 @@ import { Pie } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-export function PieChart() {
-
-  const data = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+export function PieChart({ labels, data }: { labels: string[]; data: number[] }) {
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+        // position: 'top' as const,
+      },
+      title: {
+        display: false,
+        text: 'Chart.js Line Chart',
+        color: 'black',
+      },
+    },
+  };
+  const chartData = {
+    labels: labels,
     datasets: [
       {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        label: 'No. of cars',
+        data: data,
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
+          'rgba(23, 126, 137, 0.9)',
+          'rgba(8, 76, 97, 0.9)',
+          'rgba(219, 58, 52, 0.9)',
+          'rgba(255, 200, 87, 0.9)',
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
+          'rgba(23, 126, 137)',
+          'rgba(8, 76, 97)',
+          'rgba(219, 58, 52)',
+          'rgba(255, 200, 87)',
         ],
         borderWidth: 1,
       },
     ],
   };
-  return <Pie data={data} />;
+  return <Pie options={options} data={chartData} />;
 }
