@@ -93,7 +93,7 @@ function Trends() {
   }
 
   return (
-    <div className="border border-gray-300 rounded-lg p-4 w-1/2 flex flex-col items-center">
+    <div className="border border-gray-300 rounded-lg p-4 flex flex-col items-center">
       <h1 className="text-lg font-bold mb-4">Trends this month</h1>
       <div>
         <button className={`px-4 py-1 ${option === 'Rental' ? 'bg-purple-400' : 'bg-purple-200'} leading-none hover:cursor-pointer`} onClick={() => setOption('Rental')}>Rental</button>
