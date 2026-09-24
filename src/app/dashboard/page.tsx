@@ -4,6 +4,7 @@ import Trends from './Trends'
 import KPIs from './KPIs'
 import dynamic from "next/dynamic";
 import Table from '@/components/Table';
+import SupportMessages from './SupportMessages';
 
 const OnlineUsers = dynamic(
   () => import("@/app/dashboard/OnlineUsers"),
@@ -21,6 +22,7 @@ function Dashboard() {
         <Trends />
         <FleetByCity />
         <OnlineUsers />
+        <SupportMessages />
       </div>
     </div>
   )
