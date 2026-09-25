@@ -19,6 +19,7 @@ function RecentActivity() {
   const [activities, setActivities] = useState<ActivityType[] | null>(null)
   const [displayActivities, setDisplayActivities] = useState<ActivityType[] | null>(null)
   const [page, setPage] = useState(1)
+  const [indexes, setIndexes] = useState({ startIndex: 1, endIndex: 30 })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +45,8 @@ function RecentActivity() {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
+    setIndexes({ startIndex, endIndex })
+
     if (activities) {
       const pageItems = activities?.slice(startIndex, endIndex);
       setDisplayActivities(pageItems)
@@ -67,15 +70,15 @@ function RecentActivity() {
           )
         })}
       </div>
-      <div className='flex mt-5'>
-        <button className='flex gap-1 items-center hover:bg-gray-200 px-2 py-1 rounded-md' onClick={() => setPage(1)}>
+      <div className='flex mt-5 items-center gap-3'>
+        <button className='flex gap-1 items-center hover:bg-gray-200 px-2 py-1 rounded-md border-2 border-gray-200' onClick={() => setPage(1)}>
           <FaCaretLeft size={20} />
-          <div>Newer</div>
+          <div className='leading-none'>Newer</div>
         </button>
-
-        <button className='flex gap-1 items-center hover:bg-gray-200 px-2 py-1 rounded-md' onClick={() => setPage(2)}>
+        <div>Showing {indexes.startIndex + 1} - {indexes.endIndex} / {activities?.length}</div>
+        <button className='flex gap-1 items-center hover:bg-gray-200 px-2 py-1 rounded-md border-2 border-gray-200' onClick={() => setPage(2)}>
           <FaCaretRight size={20} />
-          <div>Older</div>
+          <div className='leading-none'>Older</div>
         </button>
       </div>
     </div >
