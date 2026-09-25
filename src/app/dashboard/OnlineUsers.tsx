@@ -96,7 +96,7 @@ function OnlineUsers() {
   }, []);
 
   return (
-    <div className='border border-gray-300 rounded-lg p-4 '>
+    <div className='border border-gray-300 rounded-lg p-4 w-1/2'>
       <h1 className="text-lg font-bold mb-4 text-center">Users online & their Location</h1>
       <div>
         {userData &&

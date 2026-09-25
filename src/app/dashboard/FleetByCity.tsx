@@ -36,7 +36,7 @@ function FleetByCity() {
     fetchData();
   }, []);
   return (
-    <div className="border border-gray-300 rounded-lg p-4 flex flex-col items-center">
+    <div className="w-1/4 border border-gray-300 rounded-lg p-4 flex flex-col items-center">
       <h1 className="text-lg font-bold mb-4">Number of Cars by City</h1>
       <div className="h-72 w-fit">
         <PieChart labels={labels} data={data} />

@@ -69,7 +69,7 @@ function KPIs() {
     fetchData();
   }, []);
   return (
-    <div className="w-1/2 grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-6 gap-4">
       {kpiData?.totalMembers !== undefined && (
         <Kpi title="Total Members" value={kpiData.totalMembers}>
           <FaUser size={40} className="text-gray-800" />
