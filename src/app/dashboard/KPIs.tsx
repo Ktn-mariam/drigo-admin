@@ -100,11 +100,6 @@ function KPIs() {
           <FaTruck size={40} className="text-gray-800" />
         </Kpi>
       )}
-      {kpiData?.totalDeliveryDrivers !== undefined && (
-        <Kpi title="Total Delivery Drivers" value={kpiData.totalDeliveryDrivers}>
-          <FaTruck size={40} className="text-gray-800" />
-        </Kpi>
-      )}
       {kpiData?.onlineDrivers !== undefined && (
         <Kpi title="Online Drivers" value={kpiData.onlineDrivers}>
           <MdOnlinePrediction size={40} className="text-gray-800" />
