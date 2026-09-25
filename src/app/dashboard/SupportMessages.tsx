@@ -36,7 +36,7 @@ function SupportMessages() {
     fetchData();
   }, []);
   return (
-    <div className='w-1/2 border border-gray-300 rounded-lg p-4'>
+    <div className='w-1/4 border border-gray-300 rounded-lg p-4'>
       <h1 className="text-lg font-bold mb-4 text-center">Most Recent Messages</h1>
       <div className='flex flex-col gap-4'>
         {supportMessages && supportMessages.map((supportMessage) => {

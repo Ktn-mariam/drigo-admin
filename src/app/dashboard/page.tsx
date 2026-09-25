@@ -17,13 +17,15 @@ const OnlineUsers = dynamic(
 
 function Dashboard() {
   return (
-    <div className="flex items-start gap-4 p-4">
+    <div className="flex flex-col">
       <KPIs />
-      <div className="flex flex-col gap-4 w-1/2">
+      <div className="flex gap-4 mt-4 items-start">
         <Trends />
         <FleetByCity />
-        <OnlineUsers />
         <SupportMessages />
+      </div>
+      <div className='flex gap-4 items-start'>
+        <OnlineUsers />
         <RecentActivity />
       </div>
     </div>

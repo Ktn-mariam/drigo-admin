@@ -54,7 +54,7 @@ function RecentActivity() {
   }, [activities, page])
 
   return (
-    <div className='border border-gray-300 rounded-lg p-4 flex flex-col items-center'>
+    <div className='border border-gray-300 rounded-lg p-4 flex flex-col items-center w-1/2'>
       <h1 className="text-lg font-bold mb-4 text-center">Most Recent Activity</h1>
       <div>
         {displayActivities && displayActivities.map((activity) => {
