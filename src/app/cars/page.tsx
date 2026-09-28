@@ -43,11 +43,10 @@ const Cars = () => {
 
   return (
     <div>
-      {carData && <div className='flex p-10 gap-10'>
-        <CarCard car={carData[0]} />
-        <CarCard car={carData[1]} />
-        <CarCard car={carData[2]} />
-        <CarCard car={carData[3]} />
+      {carData && <div className='grid grid-cols-3 gap-4 w-3/4 m-10'>
+        {carData.map((car, index) => {
+          return <CarCard key={index} car={car} />
+        })}
       </div>}
     </div>
   )
