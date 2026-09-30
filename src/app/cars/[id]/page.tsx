@@ -13,6 +13,7 @@ import L from "leaflet";
 import Map from '@/components/Map';
 import { renderToStaticMarkup } from "react-dom/server";
 import { FaLocationDot } from "react-icons/fa6";
+import { LuDot } from "react-icons/lu";
 
 export type CarFeature = {
   id: number;
@@ -68,9 +69,6 @@ export type CarDetailType = {
   engineVolume: string;
   engineCapacity: number;
   engineUnit: string;
-  fuelType: string;
-  fuelTypeId: number;
-  fuelTypeName: string;
   transmission: number;
   seats: number;
   maxSpeed: number;
@@ -89,6 +87,9 @@ export type CarDetailType = {
   colorName: string;
 
   // Fuel
+  fuelType: string;
+  fuelTypeId: number;
+  fuelTypeName: string;
   fuelPercentage: number;
   fuelLevel: number;
   fuelTankCapacity: number;
@@ -248,43 +249,141 @@ export default function CarDetails() {
   return (
     <div className='mx-20 my-10'>
       {carDetail && <div className='flex flex-col gap-5'>
-        <div className='flex items-end gap-3'>
-          <h1 className='text-4xl font-semibold'>{carDetail.brandName} {carDetail.modelName}</h1>
-          <div className='flex gap-2'>
-            {/* Color */}
-            <div className='flex items-center gap-1 bg-gray-100 px-1 py-0.5 rounded-3xl'>
-              <div className='border border-black h-3 w-3 rounded-2xl' style={{ backgroundColor: `${carDetail.color}` }}></div>
-              <p className='text-sm'>{carDetail.colorName}</p>
+        <div className='flex flex-col gap-2 mb-3'>
+          <div className='flex items-end gap-3'>
+            <h1 className='text-4xl font-semibold'>{carDetail.brandName} {carDetail.modelName}</h1>
+            <div className='flex gap-2'>
+              {/* Color */}
+              <div className='flex items-center gap-2 bg-gray-100 px-1.5 py-0.5 rounded-3xl'>
+                <div className='border border-black h-2 w-2 rounded-2xl' style={{ backgroundColor: `${carDetail.color}` }}></div>
+                <p className='text-sm leading-none'>{carDetail.colorName}</p>
+              </div>
+              {/* Seats */}
+              <div className='flex items-center gap-2 bg-gray-100 px-1.5 py-0.5 rounded-3xl'>
+                <MdEventSeat />
+                <p className='text-sm leading-none'>{carDetail.seats} Seats</p>
+              </div>
             </div>
-            {/* Seats */}
-            <div className='flex items-center gap-1 bg-gray-100 px-1 py-0.5 rounded-3xl'>
-              <MdEventSeat />
-              <p className='text-sm'>{carDetail.seats}</p>
-            </div>
+          </div>
+          <div className='flex gap-1 text-sm items-center'>
+            <p>Made in <span className='font-semibold'>{carDetail.manufactureYear}</span></p>
+            <LuDot />
+            <p><span className='font-semibold'>{carDetail.bodyType}</span> Body Type</p>
+            <LuDot />
+            <p>AED <span className='font-semibold'>{carDetail.price}</span>/day</p>
+            <LuDot />
+            {carDetail.insurance && !carDetail.freeInsurance && <p>Paid Insurance</p>}
+            {!carDetail.insurance && !carDetail.freeInsurance && <p>No Insurance</p>}
+            {carDetail.freeInsurance && <p>Free Insurance</p>}
+            <LuDot />
+            {carDetail.isActive && <p>Active</p>}
+            {!carDetail.isActive && <p>Inactive</p>}
+            <LuDot />
+            {carDetail.isUsable && <p>Usable</p>}
+            {!carDetail.isUsable && <p>Not Usable</p>}
+            <LuDot />
+            <p>Created at <span className='font-semibold'>{new Date(carDetail.createdAt).toLocaleString()}</span></p>
           </div>
         </div>
         <div className='flex gap-5'>
-          {/* Features */}
-          <div className='w-2/3'>
-            <div className='flex flex-col gap-3'>
-              <h2 className='font-semibold text-xl'>Features</h2>
-              <div className='flex gap-2'>
+          <div className='w-3/5 flex flex-col gap-3'>
+            <div className='flex items-center justify-center'>
+              <img
+                className='w-full'
+                src={carDetail.imageUrl}
+                alt={`${carDetail.brandName} ${carDetail.modelName}`}
+              />
+            </div>
+            {/* Features */}
+            <div className='flex flex-col gap-1 border-b-2 border-gray-200 pb-3'>
+              <h2 className='font-semibold text-lg'>Features</h2>
+              <div className='flex gap-2 flex-wrap'>
                 {carDetail.carFeatures.map((feature, index) => {
-                  return <div className='flex items-center gap-2'>
-                    <div className='bg-gray-100 px-3 py-1 rounded-3xl'>{feature.name}</div>
+                  return <div key={index} className='flex items-center gap-2'>
+                    <div className='bg-gray-100 px-3 py-1 rounded-3xl font-semibold'>{feature.name}</div>
                     <div>
-                      {index !== carDetail.carFeatures.length - 1 && <GoDotFill />}
+                      {index !== carDetail.carFeatures.length - 1 && <LuDot />}
                     </div>
                   </div>
                 })}
               </div>
             </div>
+            <div className='flex flex-col gap-1 border-b-2 border-gray-200 pb-3'>
+              <h2 className='font-semibold text-lg'>Engine and Performance</h2>
+              <div className='flex gap-20'>
+                <div>
+                  <div className='text-gray-600'>Engine Volume:</div>
+                  <div className='text-gray-600'>Engine Capacity:</div>
+                  <div className='text-gray-600'>Engine Unit:</div>
+                  <div className='text-gray-600'>Fuel Type:</div>
+                  <div className='text-gray-600'>Transmission:</div>
+                  <div className='text-gray-600'>Max Speed:</div>
+                </div>
+                <div>
+                  <div className='font-semibold'>{carDetail.engineVolume}</div>
+                  <div className='font-semibold'>{carDetail.engineCapacity}</div>
+                  <div className='font-semibold'>{carDetail.engineUnit}</div>
+                  <div className='font-semibold'>{carDetail.fuelType}</div>
+                  <div className='font-semibold'>{carDetail.transmission}</div>
+                  <div className='font-semibold'>{carDetail.maxSpeed}</div>
+                </div>
+              </div>
+            </div>
+            <div className='flex flex-col gap-1 border-b-2 border-gray-200 pb-3'>
+              <h2 className='font-semibold text-lg'>Fuel and Range</h2>
+              <div className='flex gap-20'>
+                <div>
+                  <div className='text-gray-600'>Fuel Type:</div>
+                  <div className='text-gray-600'>Fuel Percentage:</div>
+                  <div className='text-gray-600'>Fuel Level:</div>
+                  <div className='text-gray-600'>Fuel Tank Capacity:</div>
+                  <div className='text-gray-600'>Distance: </div>
+                </div>
+                <div>
+                  <div className='font-semibold'>{carDetail.fuelType}</div>
+                  <div className='font-semibold'>{carDetail.fuelPercentage.toFixed(2)}%</div>
+                  <div className='font-semibold'>{carDetail.fuelLevel.toFixed(2)}</div>
+                  <div className='font-semibold'>{carDetail.fuelTankCapacity}</div>
+                  <div className='font-semibold'>{carDetail.distance.toFixed(2)} km</div>
+                </div>
+              </div>
+            </div>
+            <div className='flex flex-col gap-1 border-b-2 border-gray-200 pb-3'>
+              <h2 className='font-semibold text-lg'>Available Cities</h2>
+              <div className='flex gap-2'>
+                {carDetail.endTripAvailableCities.map((city, index) => {
+                  return <div key={index} className='flex items-center gap-2'>
+                    <div className='bg-gray-100 px-3 py-1 rounded-3xl font-semibold'>{city.name}</div>
+                    <div>
+                      {index !== carDetail.endTripAvailableCities.length - 1 && <LuDot />}
+                    </div>
+                  </div>
+                })}
+              </div>
+            </div>
+            <div className='flex flex-col gap-1 border-b-2 border-gray-200 pb-3'>
+              <h2 className='font-semibold text-lg'>Vehicle Identification</h2>
+              <div className='flex gap-20'>
+                <div>
+                  <div className='text-gray-600'>Plate Number:</div>
+                  <div className='text-gray-600'>Chassis Number:</div>
+                  <div className='text-gray-600'>TARS Vehicle Identifier:</div>
+                  <div className='text-gray-600'>Imei:</div>
+                </div>
+                <div>
+                  <div className='font-semibold'>{carDetail.plateNumber}</div>
+                  <div className='font-semibold'>{carDetail.chassisNumber}</div>
+                  <div className='font-semibold'>{carDetail.tarsVehicleDid}</div>
+                  <div className='font-semibold'>{carDetail.imei}</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className='w-1/3 flex flex-col gap-5'>
+          <div className='w-2/5 flex flex-col gap-5'>
             {/* Car Location */}
             <div className='border-2 border-gray-200 rounded-xl px-5 py-3 flex flex-col gap-2'>
-              <h2 className='font-semibold text-xl'>Car Location</h2>
-              <div className='h-60'>
+              <h2 className='font-semibold text-lg'>Car Location</h2>
+              <div className='h-72'>
                 <Map center={{ latitude: carDetail.location.latitude, longitude: carDetail.location.longitude }}>
                   <CustomMapMarkersForCarLocation carLocation={carDetail.location} />
                 </Map>
@@ -305,9 +404,9 @@ export default function CarDetails() {
               </div>
             </div>
             {/* Parking Zone */}
-            <div className='border-2 border-gray-200 rounded-xl px-5 py-3 flex flex-col gap-2'>
-              <h2 className='font-semibold text-xl'>Included Parking Zones</h2>
-              <div className='h-60'>
+            {carDetail.includedParkingZones.length > 0 && <div className='border-2 border-gray-200 rounded-xl px-5 py-3 flex flex-col gap-2'>
+              <h2 className='font-semibold text-lg'>Included Parking Zones</h2>
+              <div className='h-72'>
                 <Map center={{ latitude: carDetail.includedParkingZones[0].latitude, longitude: carDetail.includedParkingZones[0].longitude }}>
                   <CustomMapMarkersForParkingZones parkingZones={carDetail.includedParkingZones} />
                 </Map>
@@ -315,29 +414,29 @@ export default function CarDetails() {
               <div className='flex flex-col'>
                 <p className='text-indigo-800 text-sm text-center italic'>The blue region in circle highlights the included parking zone areas.</p>
                 <div>
-                  <ul className="list-disc pl-5">
+                  <ul className="list-disc pl-5 mt-2">
                     {carDetail.includedParkingZones.map((parkingZone, index) => {
                       return <li className='font-semibold' key={index}>{parkingZone.name}</li>
                     })}
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className='border-2 border-gray-200 rounded-xl px-5 py-3 flex flex-col gap-2'>
-              <h2 className='font-semibold text-xl'>Included Gas Stations</h2>
-              <div className='h-60'>
+            </div>}
+            {carDetail.includedGasStations.length > 0 && <div className='border-2 border-gray-200 rounded-xl px-5 py-3 flex flex-col gap-2'>
+              <h2 className='font-semibold text-lg'>Included Gas Stations</h2>
+              <div className='h-72'>
                 <Map center={{ latitude: carDetail.includedGasStations[0].latitude, longitude: carDetail.includedGasStations[0].longitude }}>
                   <CustomMapMarkersForGasStations gasStations={carDetail.includedGasStations} />
                 </Map>
               </div>
               <div>
-                <ul className="list-disc pl-5">
+                <ul className="list-disc pl-5 mt-2">
                   {carDetail.includedGasStations.map((gasStation, index) => {
                     return <li className='font-semibold' key={index}>{gasStation.name}</li>
                   })}
                 </ul>
               </div>
-            </div>
+            </div>}
           </div>
         </div>
       </div>}
