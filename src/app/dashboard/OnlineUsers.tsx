@@ -100,7 +100,7 @@ function OnlineUsers() {
       <h1 className="text-lg font-bold mb-4 text-center">Users online & their Location</h1>
       <div>
         {userData &&
-          <Map>
+          <Map center={{ latitude: userData[0].latitude, longitude: userData[0].longitude }}>
             <CustomMapMarkersForOnlineUsers userData={userData} />
           </Map>}
       </div>

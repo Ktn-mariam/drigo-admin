@@ -3,6 +3,7 @@ import React from 'react'
 import { FaLocationDot } from "react-icons/fa6";
 import { FaIdCard } from "react-icons/fa";
 import { BsFillFuelPumpFill } from "react-icons/bs";
+import Link from "next/link";
 
 type CarType = {
   id: number;
@@ -64,6 +65,11 @@ const CarCard = ({ car }: { car: CarType }) => {
           <p className='font-semibold text-gray-500'>Fuel</p>
         </div>
         <p className='font-semibold text-black'>{car.fuelLevel.toFixed(2)}%</p>
+      </div>
+      <div className='mt-2'>
+        <Link href={`/cars/${car.id}`}>
+          <button className='text-center w-full border-2 border-gray-300 py-1 hover:cursor-pointer rounded-md'>View Details</button>
+        </Link>
       </div>
     </div>
   )

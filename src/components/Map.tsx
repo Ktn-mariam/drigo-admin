@@ -4,16 +4,23 @@ import React from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
+type CenterType = {
+  latitude: number,
+  longitude: number
+}
+
 export default function Map({
   children,
+  center
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode,
+  center: CenterType
 }) {
   return (
-    <div className="h-96 w-full">
+    <div className="h-full w-full">
       <MapContainer
-        center={[25.276987, 55.296249]}
-        zoom={13}
+        center={[center.latitude, center.longitude]}
+        zoom={15}
         scrollWheelZoom={false}
         className="h-full w-full"
       >
