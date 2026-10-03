@@ -77,13 +77,35 @@ function AddCar() {
   const [fuelTypes, setFuelTypes] = useState<FuelType[] | null>(null)
   const [selectedBrand, setSelectedBrand] = useState<BrandType | null>(null)
   const [models, setModels] = useState<Model[] | null>(null)
-  const [selectedModel, setSelectedModel] = useState<Model | null>(null)
+  const [selectedModelId, setSelectedModelId] = useState<number | "">("")
   const [colors, setColors] = useState<ColorType[] | null>(null)
-  const [selectedColor, setSelectedColor] = useState<ColorType | null>(null)
+  const [selectedColorId, setSelectedColorId] = useState<number | "">("")
   const [features, setFeatures] = useState<FeatureType[] | null>(null)
   const [cities, setCities] = useState<CityType[] | null>(null)
   const [parkingZones, setParkingZones] = useState<ParkingZoneType[] | null>(null)
   const [gasStations, setGasStations] = useState<GasStationType[] | null>(null)
+
+  const manufactureYearRef = useRef<HTMLInputElement | null>(null);
+  const engineCapacityRef = useRef<HTMLInputElement | null>(null);
+  const engineUnitRef = useRef<HTMLInputElement | null>(null);
+  const maxSpeedRef = useRef<HTMLInputElement | null>(null);
+  const transmissionRef = useRef<HTMLInputElement | null>(null);
+  const fuelTypeRef = useRef<HTMLSelectElement | null>(null);
+  const fuelPercentageRef = useRef<HTMLInputElement | null>(null);
+  const fuelTankCapacityRef = useRef<HTMLInputElement | null>(null);
+  const distanceRef = useRef<HTMLInputElement | null>(null);
+  const plateNumberRef = useRef<HTMLInputElement | null>(null);
+  const chassisNumberRef = useRef<HTMLInputElement | null>(null);
+  const tarsVehicleIdentifierRef = useRef<HTMLInputElement | null>(null);
+  const imeiRef = useRef<HTMLInputElement | null>(null);
+  const latitudeRef = useRef<HTMLInputElement | null>(null);
+  const longitudeRef = useRef<HTMLInputElement | null>(null);
+  const addressRef = useRef<HTMLInputElement | null>(null);
+  const cityRef = useRef<HTMLSelectElement | null>(null);
+  const featureRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const endTripCityRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const includedParkingZoneRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const includedGasStationRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
     const fetchAllBrands = async () => {
@@ -194,7 +216,7 @@ function AddCar() {
 
     if (selectedBrand) {
       fetchModels();
-      setSelectedModel(null)
+      setSelectedModelId("")
     }
   }, [selectedBrand]);
 
@@ -217,7 +239,7 @@ function AddCar() {
 
     if (selectedBrand) {
       fetchColors();
-      setSelectedModel(null)
+      setSelectedModelId("")
     }
   }, [selectedBrand]);
 
@@ -233,32 +255,89 @@ function AddCar() {
     }
   }
 
-  const setModelBasedOnId = (selectedModelId: number) => {
-    if (models) {
-      const selectedModel = models.filter((model) => {
-        return model.id === selectedModelId
-      })[0]
+  const handleAddCar = async () => {
+    const manufactureYear = manufactureYearRef.current?.value;
+    const engineCapacity = engineCapacityRef.current?.value;
+    const engineUnit = engineUnitRef.current?.value;
+    const maxSpeed = maxSpeedRef.current?.value;
+    const transmission = transmissionRef.current?.value;
+    const fuelType = fuelTypeRef.current?.value;
+    const fuelPercentage = fuelPercentageRef.current?.value;
+    const fuelTankCapacity = fuelTankCapacityRef.current?.value;
+    const distance = distanceRef.current?.value;
+    const plateNumber = plateNumberRef.current?.value;
+    const chassisNumber = chassisNumberRef.current?.value;
+    const tarsVehicleIdentifier = tarsVehicleIdentifierRef.current?.value;
+    const imei = imeiRef.current?.value;
+    const latitude = latitudeRef.current?.value;
+    const longitude = longitudeRef.current?.value;
+    const address = addressRef.current?.value;
+    const city = cityRef.current?.value;
+    const selectedFeatures = featureRefs.current
+      .filter((ref) => ref?.checked)
+      .map((ref) => Number(ref!.value));
+    const selectedEndTripCities = endTripCityRefs.current
+      .filter((ref) => ref?.checked)
+      .map((ref) => Number(ref!.value));
+    const selectedIncludedParkingZones = includedParkingZoneRefs.current
+      .filter((ref) => ref?.checked)
+      .map((ref) => Number(ref!.value));
+    const selectedIncludedGasStations = includedGasStationRefs.current
+      .filter((ref) => ref?.checked)
+      .map((ref) => Number(ref!.value));
 
-      console.log(selectedModel);
+    const carData = {
+      brandId: selectedBrand?.id,
+      modelId: selectedModelId,
+      colorId: selectedColorId,
+      manufactureYear: manufactureYear,
+      engineCapacity: engineCapacity,
+      engineUnit: engineUnit,
+      maxSpeed: maxSpeed,
+      transmission: transmission,
+      fuelTypeId: fuelType,
+      fuelPercentage: fuelPercentage,
+      fuelTankCapacity: fuelTankCapacity,
+      distance: distance,
+      plateNumber: plateNumber,
+      chassisNumber: chassisNumber,
+      tarsVehicleDid: tarsVehicleIdentifier,
+      imei: imei,
+      latitude: latitude,
+      longitude: longitude,
+      address: address,
+      city: city,
+      carFeatureIds: selectedFeatures,
+      endTripAvailableCityIds: selectedEndTripCities,
+      includedParkingZoneIds: selectedIncludedParkingZones,
+      includedGasStationIds: selectedIncludedGasStations
+    };
 
-      setSelectedModel(selectedModel)
-    }
-  }
+    console.log('Car Data:', carData);
 
-  const setcolorBasedOnId = (selectedcolorId: number) => {
-    if (colors) {
-      const selectedColor = colors.filter((color) => {
-        return color.id === selectedcolorId
-      })[0]
+    try {
+      const response = await fetch("http://localhost:4000/api/admin/cars", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(carData),
+      });
 
-      console.log(selectedColor);
+      const data = await response.json();
+      console.log('Model data:', data);
 
-      setSelectedColor(selectedColor)
+      // if (data.status === 401) {
+      //   router.push('/login');
+      // }
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   }
 
   return (
-    <div className='mx-20 my-10 flex flex-col gap-3'>
+    <div className='mx-20 mt-10 mb-20 flex flex-col gap-3'>
       <h1 className='font-semibold text-3xl'>Add Car</h1>
       <div className='w-full flex gap-36'>
         <div className='w-1/2 flex flex-col gap-3'>
@@ -274,7 +353,7 @@ function AddCar() {
             </div>
             <div className='flex flex-col w-1/2'>
               <label htmlFor="">Model:</label>
-              <select className='px-2 py-1 border-2 border-gray-300 rounded-md' name="" value={selectedModel?.id || ""} id="" onChange={(e) => setModelBasedOnId(Number(e.target.value))}>
+              <select className='px-2 py-1 border-2 border-gray-300 rounded-md' name="" id="" value={selectedModelId} onChange={(e) => setSelectedModelId(Number(e.target.value))}>
                 <option value="">Select Model</option>
                 {models && models.map((model, index) => {
                   return <option value={model.id} key={index}>{model.name}</option>
@@ -285,7 +364,7 @@ function AddCar() {
           <div className='w-full flex gap-5'>
             <div className='flex flex-col w-1/2'>
               <label htmlFor="">Color:</label>
-              <select className='px-2 py-1 border-2 border-gray-300 rounded-md' name="" value={selectedColor?.id || ""} id="" onChange={(e) => setcolorBasedOnId(Number(e.target.value))}>
+              <select className='px-2 py-1 border-2 border-gray-300 rounded-md' name="" id="" value={selectedColorId} onChange={(e) => setSelectedColorId(Number(e.target.value))}>
                 <option value="">Select Color</option>
                 {colors && colors.map((color, index) => {
                   return <option value={color.id} key={index}>{color.name}</option>
@@ -295,6 +374,7 @@ function AddCar() {
             <div className='flex flex-col w-1/2'>
               <label htmlFor="">Manufacture Year:</label>
               <input
+                ref={manufactureYearRef}
                 type="number"
                 name="year"
                 placeholder="Ex: 2020"
@@ -310,6 +390,7 @@ function AddCar() {
               <div className='flex flex-col w-1/2'>
                 <label htmlFor="">Engine Capacity:</label>
                 <input
+                  ref={engineCapacityRef}
                   type="number"
                   name="capacity"
                   placeholder="Ex: 2.0"
@@ -320,6 +401,7 @@ function AddCar() {
               <div className='flex flex-col w-1/2'>
                 <label htmlFor="">Engine Unit:</label>
                 <input
+                  ref={engineUnitRef}
                   type="text"
                   name="unit"
                   placeholder="Ex: L"
@@ -333,6 +415,7 @@ function AddCar() {
               <div className='flex flex-col w-1/2'>
                 <label htmlFor="">Max Speed:</label>
                 <input
+                  ref={maxSpeedRef}
                   type="number"
                   name="maxSpeed"
                   placeholder="Ex: 100"
@@ -343,6 +426,7 @@ function AddCar() {
               <div className='flex flex-col w-1/2'>
                 <label htmlFor="">Transmission:</label>
                 <input
+                  ref={transmissionRef}
                   type="number"
                   name="transmission"
                   placeholder="Ex: 100"
@@ -355,19 +439,10 @@ function AddCar() {
           <div>
             <h2 className='font-semibold text-lg mt-5'>Fuel and Range</h2>
             <div className='w-full flex gap-5'>
-              <div className='flex flex-col w-1/2'>
-                <label htmlFor="">Engine Capacity:</label>
-                <input
-                  type="number"
-                  name="capacity"
-                  placeholder="Ex: 2.0"
-                  min={0}
-                  className="px-2 py-1 border-2 border-gray-300 rounded-md"
-                />
-              </div>
+              {/* here */}
               <div className='flex flex-col w-1/2'>
                 <label htmlFor="">Fuel Type:</label>
-                <select className='px-2 py-1 border-2 border-gray-300 rounded-md' name="fuelType"
+                <select ref={fuelTypeRef} className='px-2 py-1 border-2 border-gray-300 rounded-md' name="fuelType"
                 // value={selectedFuelType?.id || ""} id="" onChange={(e) => setFuelTypeBasedOnId(Number(e.target.value))}
                 >
                   <option value="">Select Fuel Type</option>
@@ -376,36 +451,35 @@ function AddCar() {
                   })}
                 </select>
               </div>
+              <div className='flex flex-col w-1/2'>
+                <label htmlFor="">Fuel Percentage:</label>
+                <input
+                  ref={fuelPercentageRef}
+                  type="number"
+                  name="fuelPercentage"
+                  placeholder="Ex: 80"
+                  min={0}
+                  max={100}
+                  className="px-2 py-1 border-2 border-gray-300 rounded-md"
+                />
+              </div>
             </div>
             <div className='w-full flex flex-col mt-3'>
               <div className='w-full flex gap-5'>
                 <div className='flex flex-col w-1/2'>
-                  <label htmlFor="">Fuel Percentage:</label>
-                  <input
-                    type="number"
-                    name="fuelPercentage"
-                    placeholder="Ex: 80"
-                    min={0}
-                    max={100}
-                    className="px-2 py-1 border-2 border-gray-300 rounded-md"
-                  />
-                </div>
-                <div className='flex flex-col w-1/2'>
                   <label htmlFor="">Fuel Tank Capacity:</label>
                   <input
+                    ref={fuelTankCapacityRef}
                     type="text"
                     name="fuelTankCapacity"
                     placeholder="Ex: 50"
                     className="px-2 py-1 border-2 border-gray-300 rounded-md"
                   />
                 </div>
-              </div>
-            </div>
-            <div className='w-full flex flex-col mt-3'>
-              <div className='w-full flex gap-5'>
                 <div className='flex flex-col w-1/2'>
                   <label htmlFor="">Distance in km:</label>
                   <input
+                    ref={distanceRef}
                     type="number"
                     name="distance"
                     placeholder="Ex: 100"
@@ -413,7 +487,6 @@ function AddCar() {
                     className="px-2 py-1 border-2 border-gray-300 rounded-md"
                   />
                 </div>
-                <div className='w-1/2'></div>
               </div>
             </div>
           </div>
@@ -424,6 +497,7 @@ function AddCar() {
                 <div className='flex flex-col w-1/2'>
                   <label htmlFor="">Plate Number:</label>
                   <input
+                    ref={plateNumberRef}
                     type="text"
                     name="plateNumber"
                     placeholder="Ex: E4350873"
@@ -433,6 +507,7 @@ function AddCar() {
                 <div className='flex flex-col w-1/2'>
                   <label htmlFor="">Chassis Number:</label>
                   <input
+                    ref={chassisNumberRef}
                     type="text"
                     name="chassisNumber"
                     placeholder="Ex: 1HGBH41JXMN109186"
@@ -446,6 +521,7 @@ function AddCar() {
                 <div className='flex flex-col w-1/2'>
                   <label htmlFor="">TARS Vehicle Identifier:</label>
                   <input
+                    ref={tarsVehicleIdentifierRef}
                     type="text"
                     name="tarsVehicleIdentifier"
                     placeholder="Ex: did:tars:otZ8Kko27zNW"
@@ -455,6 +531,7 @@ function AddCar() {
                 <div className='flex flex-col w-1/2'>
                   <label htmlFor="">Imei:</label>
                   <input
+                    ref={imeiRef}
                     type="text"
                     name="imei"
                     placeholder="Ex: 123456789012345"
@@ -470,6 +547,7 @@ function AddCar() {
                   <div className='flex flex-col w-1/2'>
                     <label htmlFor="">Latitude:</label>
                     <input
+                      ref={latitudeRef}
                       type="number"
                       name="latitude"
                       placeholder="Ex: 25.065963"
@@ -479,6 +557,7 @@ function AddCar() {
                   <div className='flex flex-col w-1/2'>
                     <label htmlFor="">Longitude:</label>
                     <input
+                      ref={longitudeRef}
                       type="number"
                       name="longitude"
                       placeholder="Ex: 55.396681"
@@ -491,6 +570,7 @@ function AddCar() {
                 <div className='flex flex-col w-1/2'>
                   <label htmlFor="">Address:</label>
                   <input
+                    ref={addressRef}
                     type="text"
                     name="address"
                     placeholder="Ex: 123 Main St"
@@ -499,12 +579,14 @@ function AddCar() {
                 </div>
                 <div className='flex flex-col w-1/2'>
                   <label htmlFor="">City:</label>
-                  <select className='px-2 py-1 border-2 border-gray-300 rounded-md' name="city"
-                  // value={selectedColor?.id || ""} id="" onChange={(e) => setcolorBasedOnId(Number(e.target.value))}
+                  <select
+                    ref={cityRef}
+                    className='px-2 py-1 border-2 border-gray-300 rounded-md' name="city"
+                  // value={selectedColorId?.id || ""} id="" onChange={(e) => setcolorBasedOnId(Number(e.target.value))}
                   >
                     <option value="">Select City</option>
                     {cities && cities.map((city, index) => {
-                      return <option value={city.id} key={index}>{city.name}</option>
+                      return <option value={city.name} key={index}>{city.name}</option>
                     })}
                   </select>
                 </div>
@@ -523,7 +605,10 @@ function AddCar() {
                     <label key={index} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                      // onChange={(e) => setHasCarplay(e.target.checked)}
+                        value={feature.id}
+                        ref={(el) => {
+                          featureRefs.current[index] = el;
+                        }}
                       />
                       {feature.name}
                     </label>
@@ -539,10 +624,13 @@ function AddCar() {
               <div className='grid grid-cols-2 gap-3'>
                 {cities && cities.map((city, index) => {
                   return (
-                    <label className="flex items-center gap-2">
+                    <label key={index} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                      // onChange={(e) => setHasCarplay(e.target.checked)}
+                        value={city.id}
+                        ref={(el) => {
+                          endTripCityRefs.current[index] = el;
+                        }}
                       />
                       {city.name}
                     </label>
@@ -558,10 +646,13 @@ function AddCar() {
               <div className='grid grid-cols-2 gap-3'>
                 {parkingZones && parkingZones.map((zone, index) => {
                   return (
-                    <label className="flex items-center gap-2">
+                    <label key={index} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                      // onChange={(e) => setHasCarplay(e.target.checked)}
+                        value={zone.id}
+                        ref={(el) => {
+                          includedParkingZoneRefs.current[index] = el;
+                        }}
                       />
                       {zone.name}
                     </label>
@@ -577,10 +668,13 @@ function AddCar() {
               <div className='grid grid-cols-2 gap-3'>
                 {gasStations && gasStations.map((station, index) => {
                   return (
-                    <label className="flex items-center gap-2">
+                    <label key={index} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                      // onChange={(e) => setHasCarplay(e.target.checked)}
+                        value={station.id}
+                        ref={(el) => {
+                          includedGasStationRefs.current[index] = el;
+                        }}
                       />
                       {station.name}
                     </label>
@@ -588,6 +682,9 @@ function AddCar() {
                 })}
               </div>
             </div>
+          </div>
+          <div className='mt-5 mr-20 flex justify-end'>
+            <button className='bg-black text-white px-3 py-1 rounded-md' onClick={handleAddCar}>Add Car</button>
           </div>
         </div>
       </div>
