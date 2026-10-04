@@ -1,20 +1,28 @@
 "use client"
 import React from 'react'
 
-const Table = () => {
+const Table = ({ headings, dataRows }: { headings: string[], dataRows: (string | number)[][] }) => {
+  console.log('headings:', headings);
+  console.log('dataRows:', dataRows);
   return (
     <div>
       <table className="table-auto">
-        <tr>
-          <th scope="col" className='border-2 border-gray-200 px-3 py-1'>Company</th>
-          <th scope="col" className='border-2 border-gray-200 px-3 py-1'>Contact</th>
-          <th scope="col" className='border-2 border-gray-200 px-3 py-1'>Country</th>
-        </tr>
-        <tr>
-          <td scope='row' className='border-2 border-gray-200 px-3 py-1'>Alfreds Futterkiste</td>
-          <td className='border-2 border-gray-200 px-3 py-1'>Maria Anders</td>
-          <td className='border-2 border-gray-200 px-3 py-1'>Germany</td>
-        </tr>
+        <thead>
+          <tr>
+            {headings.map((heading, index) => {
+              return <th key={index} scope="col" className='border-2 border-gray-200 px-3 py-1'>{heading}</th>
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {dataRows.map((dataRow, index) => {
+            return <tr key={index}>
+              {dataRow.map((rowData, ind) => {
+                return <td key={ind} scope='row' className='border-2 border-gray-200 px-3 py-1'>{rowData}</td>
+              })}
+            </tr>
+          })}
+        </tbody>
       </table>
     </div>
   )
