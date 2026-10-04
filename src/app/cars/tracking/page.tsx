@@ -105,14 +105,14 @@ const TrackingCars = () => {
   }, []);
 
   return (
-    <div className="mx-20 mt-10 flex h-[calc(100vh-40px-40px)] flex-col gap-3">
-      <h1 className="shrink-0 text-3xl font-semibold">
+    <div className="flex h-[calc(100vh-32px)] flex-col">
+      <h1 className="shrink-0 text-xl font-semibold text-center">
         Car Tracking
       </h1>
 
       <div className="min-h-0 flex-1 w-full">
         {carTrackingData && (
-          <Map center={{ latitude: 25.276987, longitude: 55.296249 }}>
+          <Map center={{ latitude: 25.23193, longitude: 55.319502 }}>
             <CustomMapMarkersForCarTracking
               carTracking={carTrackingData}
             />
