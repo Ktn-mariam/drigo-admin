@@ -99,7 +99,7 @@ const Rentals = () => {
       <h1 className='text-2xl font-bold text-center mb-4'>Rentals</h1>
       <div className='w-full flex justify-center'>
         {rentals.length > 0 &&
-          <Table headings={['ID', 'Customer', 'Phone No', 'Car', 'Plate No', 'Start Date', 'End Date', 'Status', 'Distance', 'Price']} dataRows={rentals.map(rental => [rental.id, rental.user.fullName, rental.user.phoneNumber, `${rental.car.brand} ${rental.car.model}`, rental.car.plateNumber, `${new Date(rental.startDate).toLocaleString()}`, `${new Date(rental.endDate).toLocaleString()}`, rental.status, `${rental.totalDistance} km`, `AED ${rental.totalPrice}`])} />
+          <Table headings={['ID', 'Customer', 'Phone No', 'Car', 'Plate No', 'Start Date', 'End Date', 'Status', 'Distance', 'Price', 'Actions']} dataRows={rentals.map(rental => [rental.id, rental.user.fullName, rental.user.phoneNumber, `${rental.car.brand} ${rental.car.model}`, rental.car.plateNumber, `${new Date(rental.startDate).toLocaleString()}`, `${new Date(rental.endDate).toLocaleString()}`, rental.status, `${rental.totalDistance} km`, `AED ${rental.totalPrice}`, 'View Details'])} />
         }
       </div>
       <div className='flex mb-5 items-center justify-center'>
