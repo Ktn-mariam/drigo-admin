@@ -4,3 +4,7 @@
 .leaflet-popup .leaflet-popup-content p {
   margin: 0;
 }
+
+.leaflet-container {
+  z-index: 0;
+}
