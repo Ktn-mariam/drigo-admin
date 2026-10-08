@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from "next/navigation";
 import { GoDotFill } from "react-icons/go";
 import { MdEventSeat } from "react-icons/md";
@@ -15,6 +15,9 @@ import Map from '@/components/Map';
 import { renderToStaticMarkup } from "react-dom/server";
 import { FaLocationDot } from "react-icons/fa6";
 import { LuDot } from "react-icons/lu";
+import Modal from '@/components/Modal';
+import { IoWarning } from "react-icons/io5";
+import ToastNotificationsContext from '@/context/toastNotification';
 
 export type CarFeature = {
   id: number;
@@ -229,6 +232,9 @@ export default function CarDetails() {
   const id = params.id;
 
   const [carDetail, setCarDetail] = useState<CarDetailType | null>(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const { showToast } = useContext(ToastNotificationsContext);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -262,9 +268,19 @@ export default function CarDetails() {
 
       if (response.status === 200) {
         router.push('/cars');
+        showToast('Car deleted successfully', 'success');
+      }
+
+      if (response.status === 401) {
+        router.push('/login');
+      }
+
+      if (response.status === 409) {
+        throw new Error('Car has an active rental');
       }
     } catch (error) {
       console.error('Error deleting car:', error);
+      showToast('Delete action cannot be done:', 'error');
     }
   }
 
@@ -309,8 +325,21 @@ export default function CarDetails() {
             </div>
           </div>
           <div className='flex gap-3'>
-            <button onClick={handleEditCar} className='bg-black text-white px-3 py-1 rounded-md'>Edit Car</button>
-            <button onClick={handleDeleteCar} className='bg-red-700 text-white px-3 py-1 rounded-md'>Delete Car</button>
+            <button onClick={handleEditCar} className='bg-black text-white px-3 py-1 rounded-md hover:cursor-pointer'>Edit Car</button>
+            <button onClick={() => setIsDeleteModalOpen(true)} className='bg-red-700 text-white px-3 py-1 rounded-md hover:cursor-pointer'>Delete Car</button>
+            <Modal isOpen={isDeleteModalOpen} setIsOpen={setIsDeleteModalOpen}>
+              <div className='flex flex-col items-center gap-2'>
+                <IoWarning size='2rem' />
+                <div className='flex flex-col items-center gap-1'>
+                  <p>Are you sure you want to delete {carDetail.brandName} {carDetail.modelName}? </p>
+                  <p className='text-gray-800 italic'>Note: This action cannot be undone.</p>
+                </div>
+                <div className='flex gap-2 mt-4'>
+                  <button onClick={() => setIsDeleteModalOpen(false)} className='bg-gray-300 text-black px-3 py-1 rounded-md hover:cursor-pointer'>Cancel</button>
+                  <button onClick={handleDeleteCar} className='bg-red-700 text-white px-3 py-1 rounded-md hover:cursor-pointer'>Delete</button>
+                </div>
+              </div>
+            </Modal>
           </div>
         </div>
         <div className='flex gap-5'>
