@@ -325,8 +325,8 @@ export default function CarDetails() {
             </div>
           </div>
           <div className='flex gap-3'>
-            <button onClick={handleEditCar} className='bg-black text-white px-3 py-1 rounded-md'>Edit Car</button>
-            <button onClick={() => setIsDeleteModalOpen(true)} className='bg-red-700 text-white px-3 py-1 rounded-md'>Delete Car</button>
+            <button onClick={handleEditCar} className='bg-black text-white px-3 py-1 rounded-md hover:cursor-pointer'>Edit Car</button>
+            <button onClick={() => setIsDeleteModalOpen(true)} className='bg-red-700 text-white px-3 py-1 rounded-md hover:cursor-pointer'>Delete Car</button>
             <Modal isOpen={isDeleteModalOpen} setIsOpen={setIsDeleteModalOpen}>
               <div className='flex flex-col items-center gap-2'>
                 <IoWarning size='2rem' />
@@ -335,8 +335,8 @@ export default function CarDetails() {
                   <p className='text-gray-800 italic'>Note: This action cannot be undone.</p>
                 </div>
                 <div className='flex gap-2 mt-4'>
-                  <button onClick={() => setIsDeleteModalOpen(false)} className='bg-gray-300 text-black px-3 py-1 rounded-md'>Cancel</button>
-                  <button onClick={handleDeleteCar} className='bg-red-700 text-white px-3 py-1 rounded-md'>Delete</button>
+                  <button onClick={() => setIsDeleteModalOpen(false)} className='bg-gray-300 text-black px-3 py-1 rounded-md hover:cursor-pointer'>Cancel</button>
+                  <button onClick={handleDeleteCar} className='bg-red-700 text-white px-3 py-1 rounded-md hover:cursor-pointer'>Delete</button>
                 </div>
               </div>
             </Modal>
