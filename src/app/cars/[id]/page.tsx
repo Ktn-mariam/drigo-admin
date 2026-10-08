@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from "next/navigation";
 import { GoDotFill } from "react-icons/go";
 import { MdEventSeat } from "react-icons/md";
+import { useRouter } from "next/navigation";
 import {
   Marker,
   Tooltip,
@@ -223,6 +224,7 @@ export const CustomMapMarkersForGasStations = ({ gasStations }: CustomMapMarkers
 
 export default function CarDetails() {
   const params = useParams();
+  const router = useRouter()
 
   const id = params.id;
 
@@ -246,43 +248,69 @@ export default function CarDetails() {
     fetchData();
   }, []);
 
+  const handleEditCar = () => {
+  }
+
+  const handleDeleteCar = async () => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/admin/cars/${id}`, {
+        method: 'DELETE',
+        credentials: "include"
+      });
+      const data = await response.json();
+      console.log('delete car response:', data);
+
+      if (response.status === 200) {
+        router.push('/cars');
+      }
+    } catch (error) {
+      console.error('Error deleting car:', error);
+    }
+  }
+
   return (
     <div className='mx-20 my-10'>
       {carDetail && <div className='flex flex-col gap-5'>
-        <div className='flex flex-col gap-2 mb-3'>
-          <div className='flex items-end gap-3'>
-            <h1 className='text-4xl font-semibold'>{carDetail.brandName} {carDetail.modelName}</h1>
-            <div className='flex gap-2'>
-              {/* Color */}
-              <div className='flex items-center gap-2 bg-gray-100 px-1.5 py-0.5 rounded-3xl'>
-                <div className='border border-black h-2 w-2 rounded-2xl' style={{ backgroundColor: `${carDetail.color}` }}></div>
-                <p className='text-sm leading-none'>{carDetail.colorName}</p>
-              </div>
-              {/* Seats */}
-              <div className='flex items-center gap-2 bg-gray-100 px-1.5 py-0.5 rounded-3xl'>
-                <MdEventSeat />
-                <p className='text-sm leading-none'>{carDetail.seats} Seats</p>
+        <div className='flex items-center justify-between'>
+          <div className='flex flex-col gap-2 mb-3'>
+            <div className='flex items-end gap-3'>
+              <h1 className='text-4xl font-semibold'>{carDetail.brandName} {carDetail.modelName}</h1>
+              <div className='flex gap-2'>
+                {/* Color */}
+                <div className='flex items-center gap-2 bg-gray-100 px-1.5 py-0.5 rounded-3xl'>
+                  <div className='border border-black h-2 w-2 rounded-2xl' style={{ backgroundColor: `${carDetail.color}` }}></div>
+                  <p className='text-sm leading-none'>{carDetail.colorName}</p>
+                </div>
+                {/* Seats */}
+                <div className='flex items-center gap-2 bg-gray-100 px-1.5 py-0.5 rounded-3xl'>
+                  <MdEventSeat />
+                  <p className='text-sm leading-none'>{carDetail.seats} Seats</p>
+                </div>
               </div>
             </div>
+            <div className='flex gap-1 text-sm items-center'>
+              <p>Made in <span className='font-semibold'>{carDetail.manufactureYear}</span></p>
+              <LuDot />
+              <p><span className='font-semibold'>{carDetail.bodyType}</span> Body Type</p>
+              <LuDot />
+              <p>AED <span className='font-semibold'>{carDetail.price}</span>/day</p>
+              <LuDot />
+              {carDetail.insurance && !carDetail.freeInsurance && <p>Paid Insurance</p>}
+              {!carDetail.insurance && !carDetail.freeInsurance && <p>No Insurance</p>}
+              {carDetail.freeInsurance && <p>Free Insurance</p>}
+              <LuDot />
+              {carDetail.isActive && <p>Active</p>}
+              {!carDetail.isActive && <p>Inactive</p>}
+              <LuDot />
+              {carDetail.isUsable && <p>Usable</p>}
+              {!carDetail.isUsable && <p>Not Usable</p>}
+              <LuDot />
+              <p>Created at <span className='font-semibold'>{new Date(carDetail.createdAt).toLocaleString()}</span></p>
+            </div>
           </div>
-          <div className='flex gap-1 text-sm items-center'>
-            <p>Made in <span className='font-semibold'>{carDetail.manufactureYear}</span></p>
-            <LuDot />
-            <p><span className='font-semibold'>{carDetail.bodyType}</span> Body Type</p>
-            <LuDot />
-            <p>AED <span className='font-semibold'>{carDetail.price}</span>/day</p>
-            <LuDot />
-            {carDetail.insurance && !carDetail.freeInsurance && <p>Paid Insurance</p>}
-            {!carDetail.insurance && !carDetail.freeInsurance && <p>No Insurance</p>}
-            {carDetail.freeInsurance && <p>Free Insurance</p>}
-            <LuDot />
-            {carDetail.isActive && <p>Active</p>}
-            {!carDetail.isActive && <p>Inactive</p>}
-            <LuDot />
-            {carDetail.isUsable && <p>Usable</p>}
-            {!carDetail.isUsable && <p>Not Usable</p>}
-            <LuDot />
-            <p>Created at <span className='font-semibold'>{new Date(carDetail.createdAt).toLocaleString()}</span></p>
+          <div className='flex gap-3'>
+            <button onClick={handleEditCar} className='bg-black text-white px-3 py-1 rounded-md'>Edit Car</button>
+            <button onClick={handleDeleteCar} className='bg-red-700 text-white px-3 py-1 rounded-md'>Delete Car</button>
           </div>
         </div>
         <div className='flex gap-5'>
