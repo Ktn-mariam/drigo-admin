@@ -54,12 +54,12 @@ function RecentActivity() {
   }, [activities, page])
 
   return (
-    <div className='border border-gray-300 rounded-lg p-4 flex flex-col items-center w-1/2'>
+    <div className='border border-gray-300 rounded-lg p-4 flex flex-col items-center w-1/2 -mt-11'>
       <h1 className="text-lg font-bold mb-4 text-center">Most Recent Activity</h1>
       <div>
-        {displayActivities && displayActivities.map((activity) => {
+        {displayActivities && displayActivities.map((activity, index) => {
           return (
-            <div className='flex items-center gap-2'>
+            <div key={index} className='flex items-center gap-2'>
               <div className='w-4 flex items-center'>
                 {activity.type === "Fine" && <MdMoneyOff />}
                 {activity.type === "ReservationCreated" && <FaCar size={15} />}
