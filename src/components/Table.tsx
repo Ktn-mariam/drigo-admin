@@ -1,9 +1,11 @@
 "use client"
 import React from 'react'
+import Link from "next/link";
 
-const Table = ({ headings, dataRows }: { headings: string[], dataRows: (string | number)[][] }) => {
+const Table = ({ headings, dataRows, href }: { headings: string[], dataRows: (string | number)[][], href: string }) => {
   console.log('headings:', headings);
   console.log('dataRows:', dataRows);
+  console.log('href:', href);
   return (
     <div>
       <table className="table-auto">
@@ -15,13 +17,27 @@ const Table = ({ headings, dataRows }: { headings: string[], dataRows: (string |
           </tr>
         </thead>
         <tbody>
-          {dataRows.map((dataRow, index) => {
-            return <tr key={index}>
-              {dataRow.map((rowData, ind) => {
-                return <td key={ind} scope='row' className='border-2 border-gray-200 px-3 py-1'>{rowData}</td>
-              })}
+          {dataRows.map((dataRow, index) => (
+            <tr key={index}>
+              {dataRow.map((rowData, ind) => (
+                <td
+                  key={ind}
+                  className="border-2 border-gray-200 px-3 py-1"
+                >
+                  {ind === dataRow.length - 1 ? (
+                    <Link
+                      href={`${href}/${dataRow[0]}`}
+                      className="text-blue-600 hover:underline"
+                    >
+                      {rowData}
+                    </Link>
+                  ) : (
+                    rowData
+                  )}
+                </td>
+              ))}
             </tr>
-          })}
+          ))}
         </tbody>
       </table>
     </div>
