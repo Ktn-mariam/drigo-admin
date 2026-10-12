@@ -6,12 +6,13 @@ import dynamic from "next/dynamic";
 import { FaAndroid } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
 import { MdOnlinePrediction } from "react-icons/md";
+import Map from '@/components/Map';
 
 import { renderToStaticMarkup } from "react-dom/server";
 
-const Map = dynamic(() => import("@/components/Map"), {
-  ssr: false,
-});
+// const Map = dynamic(() => import("@/components/Map"), {
+//   ssr: false,
+// });
 
 type UserDataType = {
   userId: string,
@@ -55,7 +56,7 @@ const mapPinIcon = L.divIcon({
 export const CustomMapMarkersForOnlineUsers = ({ userData }: CustomMapMarkerForOnlineUsersType) => {
   return (
     <div>
-      {userData.map((userInfo) => <Marker icon={mapPinIcon} position={[userInfo.latitude, userInfo.longitude]}>
+      {userData.map((userInfo, index) => <Marker key={index} icon={mapPinIcon} position={[userInfo.latitude, userInfo.longitude]}>
         <Tooltip permanent direction="top" offset={[0, -38]}>
           <div className='flex flex-col items-center'>
             <div className='flex items-center gap-1'>
@@ -96,13 +97,15 @@ function OnlineUsers() {
   }, []);
 
   return (
-    <div className='border border-gray-300 rounded-lg p-4 w-1/2'>
+    <div className='border border-gray-300 rounded-lg p-4 w-1/2 mt-5'>
       <h1 className="text-lg font-bold mb-4 text-center">Users online & their Location</h1>
       <div>
         {userData &&
-          <Map center={{ latitude: userData[0].latitude, longitude: userData[0].longitude }}>
-            <CustomMapMarkersForOnlineUsers userData={userData} />
-          </Map>}
+          <div className='w-full h-96'>
+            <Map center={{ latitude: userData[0].latitude, longitude: userData[0].longitude }}>
+              <CustomMapMarkersForOnlineUsers userData={userData} />
+            </Map>
+          </div>}
       </div>
       <div className='flex gap-2 items-center justify-center'>
         <MdOnlinePrediction size={25} />
