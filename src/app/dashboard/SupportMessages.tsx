@@ -39,8 +39,8 @@ function SupportMessages() {
     <div className='w-1/4 border border-gray-300 rounded-lg p-4'>
       <h1 className="text-lg font-bold mb-4 text-center">Most Recent Messages</h1>
       <div className='flex flex-col gap-4'>
-        {supportMessages && supportMessages.map((supportMessage) => {
-          return <div className='flex gap-2 items-center'>
+        {supportMessages && supportMessages.map((supportMessage, index) => {
+          return <div key={index} className='flex gap-2 items-center'>
             {supportMessage.isOperator ? <div className='rounded-2xl bg-black p-1'>
               <RiCustomerService2Fill size={18} color='white' />
             </div> : <FaCircleUser size={20} />}

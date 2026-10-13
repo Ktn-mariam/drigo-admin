@@ -17,7 +17,7 @@ const OnlineUsers = dynamic(
 
 function Dashboard() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mx-20 mt-10 mb-20">
       <KPIs />
       <div className="flex gap-4 mt-4 items-start">
         <Trends />
