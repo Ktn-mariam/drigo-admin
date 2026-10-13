@@ -127,3 +127,28 @@ export type RentalDebtType = {
   isPaid: boolean;
   createdAt: string;
 };
+
+
+export type RentalPaymentType = {
+  id: number,
+  amount: number,
+  currency: string,
+  status: string,
+  transactionType : string,
+  serviceFee: number,
+  isFinalPayment: boolean,
+  failureReason: string | null,
+  periodStart: string,
+  periodEnd: string,
+  createdAt: string
+}
+
+export type RentalRouteType = {
+  rentalId: number,
+  distance: number,
+  coordinates: {
+  latitude: number,
+  longitude: number,
+  at: string
+  }[]
+}

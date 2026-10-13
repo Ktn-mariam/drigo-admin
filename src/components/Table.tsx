@@ -2,13 +2,13 @@
 import React from 'react'
 import Link from "next/link";
 
-const Table = ({ headings, dataRows, href }: { headings: string[], dataRows: (string | number)[][], href: string }) => {
+const Table = ({ headings, dataRows, href }: { headings: string[], dataRows: (string | number)[][], href: string | null }) => {
   console.log('headings:', headings);
   console.log('dataRows:', dataRows);
   console.log('href:', href);
   return (
-    <div>
-      <table className="table-auto">
+    <div className='w-full'>
+      <table className="table-auto w-full">
         <thead>
           <tr>
             {headings.map((heading, index) => {
@@ -24,7 +24,7 @@ const Table = ({ headings, dataRows, href }: { headings: string[], dataRows: (st
                   key={ind}
                   className="border-2 border-gray-200 px-3 py-1"
                 >
-                  {ind === dataRow.length - 1 ? (
+                  {ind === dataRow.length - 1 && href ? (
                     <Link
                       href={`${href}/${dataRow[0]}`}
                       className="text-blue-600 hover:underline"
