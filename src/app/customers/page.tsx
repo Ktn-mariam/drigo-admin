@@ -3,6 +3,8 @@ import { Customer } from '@/types/Customer';
 import { useEffect, useState } from 'react'
 import { FaRegUserCircle } from "react-icons/fa";
 import { GiConfirmed } from "react-icons/gi";
+import { MdVerifiedUser } from "react-icons/md";
+import { MdOutlineVerified } from "react-icons/md";
 
 const CustomersPage = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -37,10 +39,11 @@ const CustomersPage = () => {
         <table className="table-auto w-full">
           <thead>
             <tr className='border-b border-gray-300'>
-              <th scope="col" className='w-1/5 px-3 py-1 text-start text-lg'>TYPE</th>
-              <th scope="col" className='w-2/5 px-3 py-1 text-start text-lg'>CUSTOMER</th>
-              <th scope="col" className='w-1/5 px-3 py-1 text-start text-lg'>STATUS</th>
-              <th scope="col" className='w-1/5 px-3 py-1 text-start text-lg'>ISSUE</th>
+              <th scope="col" className='w-1/6 py-1 text-start text-lg'>TYPE</th>
+              <th scope="col" className='w-2/6 py-1 text-start text-lg'>CUSTOMER</th>
+              <th scope="col" className='w-1/6 py-1 text-start text-lg'>PLATFORM</th>
+              <th scope="col" className='w-1/6 py-1 text-start text-lg'>STATUS</th>
+              <th scope="col" className='w-1/6 py-1 text-start text-lg'>ISSUE</th>
             </tr>
           </thead>
           <tbody>
@@ -61,25 +64,33 @@ const CustomersPage = () => {
                         <div className='font-semibold text-md'>{customer.fullName}</div>
                         <div className='text-sm'>{customer.email}</div>
                         <div className='flex items-center gap-1'>
-                          {customer.phoneNumberConfirmed && <div><GiConfirmed className='text-green-800' /></div>}
-                          <div className='text-sm'>{customer.phoneCountryCode} {customer.phoneNumber}</div>
+                          {customer.phoneNumberConfirmed && <div className='flex items-center'><MdOutlineVerified className='text-green-800' size={'1rem'} /></div>}
+                          <div className='text-sm'>{customer.phoneCountryCode} {customer.phoneNumber.slice(2, customer.phoneNumber.length)}</div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </td>
                 <td>
+                  <div className='text-sm font-semibold'>{customer.platform}</div>
+                </td>
+                <td>
                   <div className="py-2 flex flex-col gap-1">
-                    {customer.isVerified && <div className='font-semibold text-sm bg-green-100 px-3 py-0.5 w-fit rounded-2xl'>Verified</div>}
+                    {customer.isVerified &&
+                      <div className='flex items-center gap-1 bg-green-100 px-3 py-0.5 w-fit rounded-2xl'>
+                        <MdVerifiedUser className='text-green-700' size={'0.9rem'} />
+                        <div className='font-semibold text-sm'>Verified</div>
+                      </div>
+                    }
                     {customer.isApproved && <div className='font-semibold text-sm bg-blue-100 px-3 py-0.5 w-fit rounded-2xl'>Approved</div>}
                     {customer.isBlocked && <div className='font-semibold text-sm bg-gray-100 px-3 py-0.5 w-fit rounded-2xl'>Blocked</div>}
                     {customer.isDeleted && <div className='font-semibold text-sm bg-gray-200 px-3 py-0.5 w-fit rounded-2xl'>Deleted</div>}
-                    {!customer.isVerified && !customer.isApproved && !customer.isBlocked && !customer.isDeleted && <div className='font-semibold text-sm bg-gray-200 px-3 py-0.5 w-fit rounded-2xl'>Pending Verification</div>}
+                    {!customer.isVerified && !customer.isApproved && !customer.isBlocked && !customer.isDeleted && <div className='font-semibold text-sm bg-gray-200 px-3 py-0.5 w-fit rounded-2xl'>Verification Pending</div>}
                   </div>
                 </td>
                 <td>
                   <div className="py-2 flex flex-col gap-1">
-                    {customer.isDriverLicenseRejected && <div className='font-semibold text-sm bg-red-100 px-3 py-0.5 w-fit rounded-2xl'>Driver's License Rejection</div>}
+                    {customer.isDriverLicenseRejected && <div className='font-semibold text-sm bg-red-100 px-3 py-0.5 w-fit rounded-2xl'>Driver's License Rejected</div>}
                     {customer.isFaceRejected && <div className='font-semibold text-sm bg-red-100 px-3 py-0.5 w-fit rounded-2xl'>Face Rejected</div>}
                     {customer.isNationalIdRejected && <div className='font-semibold text-sm bg-red-100 px-3 py-0.5 w-fit rounded-2xl'>National ID Rejected</div>}
                     {customer.isPassportRejected && <div className='font-semibold text-sm bg-red-100 px-3 py-0.5 w-fit rounded-2xl'>Passport Rejected</div>}
