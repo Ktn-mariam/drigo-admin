@@ -8,6 +8,7 @@ import { MdOutlineVerified } from "react-icons/md";
 import { FaCaretLeft } from "react-icons/fa";
 import { FaCaretRight } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
+import Link from 'next/link';
 
 const CustomersPage = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -107,12 +108,24 @@ const CustomersPage = () => {
                         <FaRegUserCircle size={'1.5rem'} />
                       </div>
                       <div>
-                        <div className='font-semibold text-md'>{customer.fullName}</div>
-                        <div className='text-sm'>{customer.email}</div>
-                        <div className='flex items-center gap-1'>
-                          {customer.phoneNumberConfirmed && <div className='flex items-center'><MdOutlineVerified className='text-green-800' size={'1rem'} /></div>}
-                          <div className='text-sm'>{customer.phoneCountryCode} {customer.phoneNumber.slice(2, customer.phoneNumber.length)}</div>
-                        </div>
+                        <Link href={`/customers/${customer.id}`} className="group">
+                          <div className="font-semibold text-md group-hover:text-blue-700">
+                            {customer.fullName}
+                          </div>
+
+                          <div className="text-sm group-hover:text-blue-700">
+                            {customer.email}
+                          </div>
+
+                          <div className="flex items-center gap-1 group-hover:text-blue-700">
+                            {customer.phoneNumberConfirmed && (
+                              <MdOutlineVerified className="text-green-800" size="1rem" />
+                            )}
+                            <div className="text-sm">
+                              {customer.phoneCountryCode} {customer.phoneNumber.slice(2)}
+                            </div>
+                          </div>
+                        </Link>
                       </div>
                     </div>
                   </div>
