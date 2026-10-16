@@ -109,7 +109,7 @@ const CustomersPage = () => {
                       </div>
                       <div>
                         <Link href={`/customers/${customer.id}`} className="group">
-                          <div className="font-semibold text-md group-hover:text-blue-700">
+                          <div className="font-semibold text-md group-hover:text-blue-700 group-hover:underline">
                             {customer.fullName}
                           </div>
 
