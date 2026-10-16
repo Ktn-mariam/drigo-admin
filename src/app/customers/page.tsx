@@ -5,17 +5,33 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { GiConfirmed } from "react-icons/gi";
 import { MdVerifiedUser } from "react-icons/md";
 import { MdOutlineVerified } from "react-icons/md";
+import { FaCaretLeft } from "react-icons/fa";
+import { FaCaretRight } from "react-icons/fa";
+import { IoIosSearch } from "react-icons/io";
 
 const CustomersPage = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [totalNoOfPages, setTotalNoOfPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [filterOption, setFilterOption] = useState<string | null>(null)
+  const [searchText, setSearchText] = useState<string | null>(null)
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/admin/users?page=${currentPage}&pageSize=20`, { credentials: "include" });
+        const params = new URLSearchParams();
+        if (searchText && searchText.trim()) {
+          params.set("search", searchText.trim());
+        }
+
+        if (filterOption) {
+          params.set("approvalStatus", filterOption);
+        }
+
+        params.set("page", String(currentPage));
+
+        const response = await fetch(`http://localhost:4000/api/admin/users?${params.toString()}`, { credentials: "include" });
         const data = await response.json();
         console.log('rental data:', data);
 
@@ -31,11 +47,41 @@ const CustomersPage = () => {
       }
     }
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, filterOption, searchText]);
+
+  const handlePageOlder = () => {
+    if (currentPage < totalNoOfPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePageNewer = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div className='px-20 py-10'>
       <h1 className='text-2xl font-bold mb-4'>Customers</h1>
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-cente gap-10'>
+        <div className='flex gap-5 items-center'>
+          <div className='flex items-center gap-2 border border-gray-300 border-solid rounded-2xl px-2 py-1 w-full focus-within:border-gray-400 transition-colors focus-within:shadow-xs'>
+            <IoIosSearch size={"1.5em"} color="lightgray" />
+            <input type="text" placeholder='Search by Name, Phone No, or Email...' className='border-none w-full focus:outline-none' onChange={(event) => {
+              setSearchText(event.target.value)
+            }}></input>
+          </div>
+          <div className='flex gap-1 w-fit items-center'>
+            <label className="whitespace-nowrap" htmlFor="">Approval Status:</label>
+            <select onChange={(event) => { setFilterOption(event.target.value); setCurrentPage(1) }} className='border border-gray-300 px-2 py-1 rounded-2xl' id="platform" name="platform">
+              <option value="">All statuses</option>
+              <option value="approved">Approved</option>
+              <option value="blocked">Blocked</option>
+              <option value="pending">Verification Pending</option>
+            </select>
+          </div>
+        </div>
         <table className="table-auto w-full">
           <thead>
             <tr className='border-b border-gray-300'>
@@ -100,6 +146,19 @@ const CustomersPage = () => {
             ))}
           </tbody>
         </table>
+        <div className='flex mb-5 items-center justify-center'>
+          <div className='flex mt-5 items-center gap-5'>
+            <button className='flex gap-1 items-center hover:bg-gray-200 px-2 py-1 rounded-md border-2 border-gray-200' onClick={handlePageNewer}>
+              <FaCaretLeft size={20} />
+              <div className='leading-none'>Back</div>
+            </button>
+            <div>Page {currentPage} of {totalNoOfPages}</div>
+            <button className='flex gap-1 items-center hover:bg-gray-200 px-2 py-1 rounded-md border-2 border-gray-200' onClick={handlePageOlder}>
+              <FaCaretRight size={20} />
+              <div className='leading-none'>Next</div>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )
