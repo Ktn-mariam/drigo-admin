@@ -94,6 +94,7 @@ const CustomersPage = () => {
             </tr>
           </thead>
           <tbody>
+            {customers && customers.map((customer, index) => (
             {customers.map((customer, index) => (
               <tr key={index} className='border-b border-gray-300'>
                 <td>
