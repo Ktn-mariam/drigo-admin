@@ -95,6 +95,7 @@ const CustomersPage = () => {
           </thead>
           <tbody>
             {customers && customers.map((customer, index) => (
+            {customers.map((customer, index) => (
               <tr key={index} className='border-b border-gray-300'>
                 <td>
                   {customer.userType === "VIP" && <div className='font-semibold text-sm bg-purple-100 px-3 py-0.5 w-fit rounded-2xl'>{customer.userType}</div>}
