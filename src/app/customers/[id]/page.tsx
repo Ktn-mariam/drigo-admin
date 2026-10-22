@@ -12,6 +12,7 @@ import { FaPhone } from "react-icons/fa";
 import { BsCalendar2DateFill } from "react-icons/bs";
 import { IoDocumentText } from "react-icons/io5";
 import { TbFaceId } from "react-icons/tb";
+import Document from './Document';
 
 const CustomerDetailPage = () => {
   const params = useParams();
@@ -131,44 +132,10 @@ const CustomerDetailPage = () => {
           <div className='border-2 border-gray-200 rounded-2xl p-5'>
             <h3 className='font-bold text-lg mb-5'>Document Verification</h3>
             <div className='grid grid-cols-2 gap-5'>
-              <div className='border-2 border-gray-200 rounded-2xl p-5'>
-                <div className='flex items-center justify-between'>
-                  <div className='flex gap-2 items-center'>
-                    <IoDocumentText size={'1.5rem'} />
-                    <h3 className='font-semibold text-lg'>Passport</h3>
-                  </div>
-                  {customerDetail.passportDetail?.isVerified && <div className='flex items-center gap-1 bg-green-100 px-3 py-0.5 w-fit rounded-2xl'>
-                    <MdVerifiedUser className='text-green-700' size={'0.9rem'} />
-                    <div className='font-semibold text-sm'>Verified</div>
-                  </div>}
-                </div>
-              </div>
-              <div className='border-2 border-gray-200 rounded-2xl p-5'>
-                <div className='flex items-center justify-between'>
-                  <div className='flex gap-2 items-center'>
-                    <IoDocumentText size={'1.5rem'} />
-                    <h3 className='font-semibold text-lg'>Driver's License</h3>
-                  </div>
-                  {customerDetail.driverLicenseDetail?.isVerified && <div className='flex items-center gap-1 bg-green-100 px-3 py-0.5 w-fit rounded-2xl'>
-                    <MdVerifiedUser className='text-green-700' size={'0.9rem'} />
-                    <div className='font-semibold text-sm'>Verified</div>
-                  </div>}
-                </div>
-
-              </div>
-              <div className='border-2 border-gray-200 rounded-2xl p-5'>
-                <div className='flex items-center justify-between'>
-                  <div className='flex gap-2 items-center'>
-                    <IoDocumentText size={'1.5rem'} />
-                    <h3 className='font-semibold text-lg'>National ID</h3>
-                  </div>
-                  {customerDetail.nationalIdentityDetail?.isVerified && <div className='flex items-center gap-1 bg-green-100 px-3 py-0.5 w-fit rounded-2xl'>
-                    <MdVerifiedUser className='text-green-700' size={'0.9rem'} />
-                    <div className='font-semibold text-sm'>Verified</div>
-                  </div>}
-                </div>
-              </div>
-              <div className='border-2 border-gray-200 rounded-2xl p-5'>
+              {customerDetail.passportDetail && <Document documentDetails={customerDetail.passportDetail} documentType='Passport' />}
+              {customerDetail.driverLicenseDetail && <Document documentDetails={customerDetail.driverLicenseDetail} documentType={`Driver's License`} />}
+              {customerDetail.nationalIdentityDetail && <Document documentDetails={customerDetail.nationalIdentityDetail} documentType='National ID' />}
+              <div className='border-2 border-gray-200 rounded-2xl p-5 flex gap-3 flex-col'>
                 <div className='flex items-center justify-between'>
                   <div className='flex gap-2 items-center'>
                     <TbFaceId size={'1.5rem'} />
@@ -178,9 +145,21 @@ const CustomerDetailPage = () => {
                     <MdVerifiedUser className='text-green-700' size={'0.9rem'} />
                     <div className='font-semibold text-sm'>Verified</div>
                   </div>}
+                  {!customerDetail.faceVerifyDetail?.isVerified && <div className='font-semibold text-sm bg-gray-200 px-3 py-0.5 w-fit rounded-2xl'>{customerDetail.faceVerifyDetail?.status}</div>}
+                </div>
+                <div>
+                  {customerDetail.faceVerifyDetail?.selfieUrl && <img className='h-49' src={customerDetail.faceVerifyDetail?.selfieUrl} alt="" />}
+                </div>
+                <div>
+                  <p>Match Score: </p>
+                  {customerDetail.faceVerifyDetail?.verifiedAt && <div className='w-1/2'>Verified at: <span className='font-semibold'>{new Date(customerDetail.faceVerifyDetail?.verifiedAt).toLocaleString()}</span></div>}
                 </div>
               </div>
             </div>
+          </div>
+          <div className='border-2 border-gray-200 rounded-2xl p-5'>
+            <h3 className='font-bold text-lg mb-5'>Document Verification</h3>
+
           </div>
         </div >}
     </div >
